@@ -437,7 +437,7 @@ def visualize_embeddings(model_dict, dataset, classes, device='cpu', test: list 
         np.save(os.path.join(output_dir, "demo_latents.npy"), demo_latents)
         np.save(os.path.join(output_dir, "meta_latents.npy"), meta_latents)
         np.save(os.path.join(output_dir, "physio_latents.npy"), physio_latents)
-        # Pruebas
+        # Testing
         np.save(os.path.join(output_dir, "test_fat_latents.npy"), test_fat_latents)
         np.save(os.path.join(output_dir, "test_bioq_latents.npy"), test_bioq_latents)
         np.save(os.path.join(output_dir, "test_antro_latents.npy"), test_antro_latents)
@@ -505,33 +505,33 @@ if __name__ == '__main__':
 
     # Normalize data
     fat_data = np.array(scaler_fat.fit_transform(fat_data))#[0:20]
-    fat_prueba = torch.tensor(fat_data[400:])
+    fat_test = torch.tensor(fat_data[400:])
     fat_data = fat_data[:400]
     
     bioq_data = np.array(scaler_bioq.fit_transform(bioq_data))#[0:20]
-    bioq_prueba = torch.tensor(bioq_data[400:])
+    bioq_test = torch.tensor(bioq_data[400:])
     bioq_data = bioq_data[:400]
     
     antro_data = np.array(scaler_antro.fit_transform(antro_data))
-    antro_prueba = torch.tensor(antro_data[400:])
+    antro_test = torch.tensor(antro_data[400:])
     antro_data = antro_data[:400]
 
     muscle_data = np.array(scaler_muscle.fit_transform(muscle_data))
-    muscle_prueba = torch.tensor(muscle_data[400:])
+    muscle_test = torch.tensor(muscle_data[400:])
     muscle_data = muscle_data[:400]
     
     demo_data = np.array(scaler_demo.fit_transform(demo_data))
-    demo_prueba = torch.tensor(demo_data[400:])
+    demo_test = torch.tensor(demo_data[400:])
     mujer = (df["Gender"] == 1).values[:400]
 
     demo_data = demo_data[:400]
 
     meta_data = np.array(scaler_meta.fit_transform(meta_data))
-    meta_prueba = torch.tensor(meta_data[400:])
+    meta_test = torch.tensor(meta_data[400:])
     meta_data = meta_data[:400]
 
     physio_data = np.array(scaler_physio.fit_transform(physio_data))
-    physio_prueba = torch.tensor(physio_data[400:])
+    physio_test = torch.tensor(physio_data[400:])
     physio_data = physio_data[:400]
 
 
@@ -565,13 +565,13 @@ if __name__ == '__main__':
     )
 
     test_dataset = MultiModalDataset(
-        fat_prueba,
-        bioq_prueba,
-        antro_prueba,
-        muscle_prueba,
-        demo_prueba,
-        meta_prueba,
-        physio_prueba,
+        fat_test,
+        bioq_test,
+        antro_test,
+        muscle_test,
+        demo_test,
+        meta_test,
+        physio_test,
         torch.tensor(test_classes)
     )
     
@@ -594,9 +594,9 @@ if __name__ == '__main__':
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
     if not search:
-        visualize_embeddings(model_dict, dataset, classes, device=device, test=[fat_prueba, bioq_prueba, antro_prueba, muscle_prueba, demo_prueba, meta_prueba, physio_prueba], filter=None, save=False, trained=False)
+        visualize_embeddings(model_dict, dataset, classes, device=device, test=[fat_test, bioq_test, antro_test, muscle_test, demo_test, meta_test, physio_test], filter=None, save=False, trained=False)
         train(model_dict, dataloader, test_dataloader, device=device, epochs=2000, save=False, alpha=0.9)
-        visualize_embeddings(model_dict, dataset, classes, device=device, test=[fat_prueba, bioq_prueba, antro_prueba, muscle_prueba, demo_prueba, meta_prueba, physio_prueba], filter=None, save=False, trained=True)
+        visualize_embeddings(model_dict, dataset, classes, device=device, test=[fat_test, bioq_test, antro_test, muscle_test, demo_test, meta_test, physio_test], filter=None, save=False, trained=True)
     else:
         for a in np.arange(0.0, 1.0, 0.1):
             model_dict = {
@@ -616,9 +616,9 @@ if __name__ == '__main__':
             os.makedirs(figure_dir, exist_ok=True)
             os.makedirs(model_path, exist_ok=True)
             print(f"Training with alpha = {a}")
-            visualize_embeddings(model_dict, dataset, classes, device=device, test=[fat_prueba, bioq_prueba, antro_prueba, muscle_prueba, demo_prueba, meta_prueba, physio_prueba], filter=None, save=False, trained=False)
+            visualize_embeddings(model_dict, dataset, classes, device=device, test=[fat_test, bioq_test, antro_test, muscle_test, demo_test, meta_test, physio_test], filter=None, save=False, trained=False)
             train(model_dict, dataloader, test_dataloader, device=device, epochs=2000, save=False, alpha=a)
-            visualize_embeddings(model_dict, dataset, classes, device=device, test=[fat_prueba, bioq_prueba, antro_prueba, muscle_prueba, demo_prueba, meta_prueba, physio_prueba], filter=None, save=False, trained=True)
+            visualize_embeddings(model_dict, dataset, classes, device=device, test=[fat_test, bioq_test, antro_test, muscle_test, demo_test, meta_test, physio_test], filter=None, save=False, trained=True)
     
 
 
