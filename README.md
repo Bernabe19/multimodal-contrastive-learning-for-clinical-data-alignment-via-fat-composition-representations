@@ -249,10 +249,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgments
 
-- University of Alicante - Department of Computer Technology
-- University of Alicante - Department of Health Psychology
-- UCAmI 2025 Conference
-- CLIP paper authors for the original contrastive learning framework
+This work was supported by grant PID2023-149562OB-I00 funded by MICIU/AEI/
+10.13039/501100011033 and by ERDF/EU and by grant CIAICO/2022/132 funded
+by Conselleria d’Innovació, Universitat, Ciència i Societat Digital. Predoctoral support
+(PREP2023-001644) was provided by MICIU/AEI/10.13039/501100011033 and ESF+
 
 ## Contact
 
